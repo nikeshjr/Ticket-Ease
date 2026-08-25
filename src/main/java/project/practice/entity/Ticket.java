@@ -25,5 +25,5 @@ public class Ticket{
 
     private String eventname;
     private LocalDateTime startTime;
-    private LocalDateTime endtime;
+    private LocalDateTime endTime;
 }
