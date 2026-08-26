@@ -12,6 +12,4 @@ import java.time.LocalDateTime;
 public class TicketDto{
     private Long id;
     private String eventname;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
 }
