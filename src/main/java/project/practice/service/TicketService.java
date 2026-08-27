@@ -44,6 +44,18 @@ public class TicketService {
         return ResponseEntity.status(HttpStatus.CREATED).body(mapDto(savedTicket));
     }
 
+    public ResponseEntity<TicketDto> updateTicket(Long id, TicketDto updatedDto){
+            Optional<Ticket> ticket =  ticketRepository.findById(id);
+            if(ticket.isPresent()){
+                ticket.get().setEventname(updatedDto.getEventname());
+                ticketRepository.save(ticket.get());
+                return ResponseEntity.status(HttpStatus.CREATED).body(mapDto(ticket.get()));
+            }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+                               
+           
+    }
+
     private TicketDto mapDto(Ticket ticket) {
         return new TicketDto(
                 ticket.getId(),
