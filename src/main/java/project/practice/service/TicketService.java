@@ -3,7 +3,9 @@ package project.practice.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
 import project.practice.dto.TicketDto;
 import project.practice.entity.Ticket;
@@ -54,6 +56,14 @@ public class TicketService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
                                
            
+    }
+     public ResponseEntity<Void> deleteTicket(Long id){
+        Optional<Ticket> ticket = ticketRepository.findById(id);
+        if(ticket.isPresent()){
+            ticketRepository.deleteById(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();    
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     private TicketDto mapDto(Ticket ticket) {
