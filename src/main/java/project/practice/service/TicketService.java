@@ -46,21 +46,21 @@ public class TicketService {
         return ResponseEntity.status(HttpStatus.CREATED).body(mapDto(savedTicket));
     }
 
-    public ResponseEntity<TicketDto> updateTicket(UUID id, TicketDto updatedDto){
-            Optional<Ticket> ticket =  ticketRepository.findById(id);
-            if(ticket.isPresent()){
-                ticket.get().setEventname(updatedDto.getEventname());
-                ticketRepository.save(ticket.get());
-                return ResponseEntity.status(HttpStatus.CREATED).body(mapDto(ticket.get()));
-            }
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();                        
-    }
-    
-     public ResponseEntity<Void> deleteTicket(UUID id){
+    public ResponseEntity<TicketDto> updateTicket(UUID id, TicketDto updatedDto) {
         Optional<Ticket> ticket = ticketRepository.findById(id);
-        if(ticket.isPresent()){
+        if (ticket.isPresent()) {
+            ticket.get().setEventname(updatedDto.getEventname());
+            ticketRepository.save(ticket.get());
+            return ResponseEntity.status(HttpStatus.OK).body(mapDto(ticket.get()));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    public ResponseEntity<Void> deleteTicket(UUID id) {
+        Optional<Ticket> ticket = ticketRepository.findById(id);
+        if (ticket.isPresent()) {
             ticketRepository.deleteById(id);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();    
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
