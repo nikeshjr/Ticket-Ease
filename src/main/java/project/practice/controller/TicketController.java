@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import project.practice.dto.TicketDto;
 import project.practice.service.TicketService;
-import java.util.List;
+
 import java.util.UUID;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api/tickets")
@@ -21,29 +23,31 @@ import java.util.UUID;
 public class TicketController {
 
     private final TicketService ticketService;
- 
+
     @GetMapping
-    public ResponseEntity<List<TicketDto>> getAllTickets(){
-        return ticketService.getAllTickets();
+    public ResponseEntity<Page<TicketDto>> getAllTickets(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ticketService.getAllTickets(page, size);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TicketDto> getTicketById(@PathVariable UUID id){
+    public ResponseEntity<TicketDto> getTicketById(@PathVariable UUID id) {
         return ticketService.getTicketById(id);
     }
 
     @PostMapping
-    public ResponseEntity<TicketDto> createTicket(@RequestBody TicketDto ticketDto){
+    public ResponseEntity<TicketDto> createTicket(@RequestBody TicketDto ticketDto) {
         return ticketService.createTicket(ticketDto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TicketDto> updateTicket(@PathVariable UUID id, @RequestBody TicketDto ticketDto){
+    public ResponseEntity<TicketDto> updateTicket(@PathVariable UUID id, @RequestBody TicketDto ticketDto) {
         return ticketService.updateTicket(id, ticketDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTicket(@PathVariable UUID id){
+    public ResponseEntity<Void> deleteTicket(@PathVariable UUID id) {
         return ticketService.deleteTicket(id);
     }
 }

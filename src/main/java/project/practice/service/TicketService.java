@@ -10,11 +10,12 @@ import project.practice.dto.TicketDto;
 import project.practice.entity.Ticket;
 import project.practice.repository.TicketRepository;
 
-import java.util.List;
 import java.util.Optional;
 
-import java.util.stream.Collectors;
 import java.util.UUID;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +24,9 @@ public class TicketService {
 
     private final TicketRepository ticketRepository;
 
-    public ResponseEntity<List<TicketDto>> getAllTickets() {
-        List<TicketDto> dtos = ticketRepository.findAll().stream().map(this::mapDto).collect(Collectors.toList());
+    public ResponseEntity<Page<TicketDto>> getAllTickets(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<TicketDto> dtos = ticketRepository.findAll(pageable).map(this::mapDto);
         return ResponseEntity.status(HttpStatus.OK).body(dtos);
     }
 
