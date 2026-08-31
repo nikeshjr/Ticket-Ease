@@ -2,6 +2,7 @@ package project.practice.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import project.practice.dto.TicketDto;
 import project.practice.service.TicketService;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/tickets")
@@ -26,7 +28,7 @@ public class TicketController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TicketDto> getTicketById(@PathVariable Long id){
+    public ResponseEntity<TicketDto> getTicketById(@PathVariable UUID id){
         return ticketService.getTicketById(id);
     }
 
@@ -36,12 +38,12 @@ public class TicketController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TicketDto> updateTicket(@PathVariable Long id, @RequestBody TicketDto ticketDto){
+    public ResponseEntity<TicketDto> updateTicket(@PathVariable UUID id, @RequestBody TicketDto ticketDto){
         return ticketService.updateTicket(id, ticketDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTicket(@PathVariable Long id){
+    public ResponseEntity<Void> deleteTicket(@PathVariable UUID id){
         return ticketService.deleteTicket(id);
     }
 }

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
+
 import org.springframework.web.server.ResponseStatusException;
 import project.practice.dto.TicketDto;
 import project.practice.entity.Ticket;
@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 import java.util.stream.Collectors;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +29,7 @@ public class TicketService {
         return ResponseEntity.status(HttpStatus.OK).body(dtos);
     }
 
-    public ResponseEntity<TicketDto> getTicketById(Long id) {
+    public ResponseEntity<TicketDto> getTicketById(UUID id) {
         Optional<Ticket> optionalTicket = ticketRepository.findById(id);
 
         if (optionalTicket.isPresent()) {
@@ -46,18 +47,17 @@ public class TicketService {
         return ResponseEntity.status(HttpStatus.CREATED).body(mapDto(savedTicket));
     }
 
-    public ResponseEntity<TicketDto> updateTicket(Long id, TicketDto updatedDto){
+    public ResponseEntity<TicketDto> updateTicket(UUID id, TicketDto updatedDto){
             Optional<Ticket> ticket =  ticketRepository.findById(id);
             if(ticket.isPresent()){
                 ticket.get().setEventname(updatedDto.getEventname());
                 ticketRepository.save(ticket.get());
                 return ResponseEntity.status(HttpStatus.CREATED).body(mapDto(ticket.get()));
             }
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-                               
-           
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();                        
     }
-     public ResponseEntity<Void> deleteTicket(Long id){
+    
+     public ResponseEntity<Void> deleteTicket(UUID id){
         Optional<Ticket> ticket = ticketRepository.findById(id);
         if(ticket.isPresent()){
             ticketRepository.deleteById(id);
